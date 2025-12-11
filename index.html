@@ -14,7 +14,7 @@ body {
 
 /* ============================
    CONTAINER
-============================= */
+============================ */
 .container {
     position: relative;
     width: 100%;
@@ -24,7 +24,7 @@ body {
 
 /* ============================
    ENVELOPE
-============================= */
+============================ */
 #envelope {
     position: absolute;
     width: 100%;
@@ -36,20 +36,28 @@ body {
 }
 
 /* ============================
-   CARD PRINCIPAL
-============================= */
-#card {
+   CARD + BOTÕES
+============================ */
+#cardWrapper {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    top: 0;
+    left: 0;
     opacity: 0;
     transform: scale(1.12);
     transition: 2s ease;
+    z-index: 8;
 }
 
-#card.glow {
+#cardWrapper.glow img {
     animation: glowSoft 6s infinite alternate;
+}
+
+#card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 @keyframes glowSoft {
@@ -58,26 +66,8 @@ body {
 }
 
 /* ============================
-   PARTÍCULAS
-============================= */
-.particle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: rgba(255, 224, 255, 0.9);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: subir 2.5s linear infinite;
-}
-
-@keyframes subir {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-120px) scale(0); opacity: 0; }
-}
-
-/* ============================
-   BOTÃO INVISÍVEL SOBRE O SELO
-============================= */
+   BOTÃO DO SELO
+============================ */
 #abrirCarta {
     position: absolute;
     width: 30%;
@@ -92,15 +82,15 @@ body {
 }
 
 /* ============================
-   QUATRO BOTÕES INVISÍVEIS
-============================= */
+   4 BOTÕES INVISÍVEIS
+============================ */
 .botao {
     position: absolute;
     width: 22%;
     height: 12%;
     bottom: 16%;
-    z-index: 15;
-    background: rgba(255,0,0,0); /* invisível */
+    background: rgba(255,0,0,0);
+    z-index: 20;
 }
 
 /* posições proporcionais ao card */
@@ -109,6 +99,23 @@ body {
 #btnConfirma { left: 52%; }
 #btnPresentes { left: 76%; }
 
+/* ============================
+   PARTÍCULAS
+============================ */
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 224, 255, 0.9);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: subir 2.5s linear infinite;
+}
+
+@keyframes subir {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120px) scale(0); opacity: 0; }
+}
 </style>
 </head>
 
@@ -122,24 +129,25 @@ body {
     <!-- Botão sobre o selo -->
     <button id="abrirCarta"></button>
 
-    <!-- Card aberto -->
-    <img id="card" src="Alissa.png">
+    <!-- Card + botões -->
+    <div id="cardWrapper">
+        <img id="card" src="Alissa.png">
 
-    <!-- 4 botões invisíveis no card -->
-    <a id="btnInfo" class="botao" href="pagina-info.html"></a>
-    <a id="btnLocal" class="botao" href="https://maps.google.com" target="_blank"></a>
-    <a id="btnConfirma" class="botao" href="https://wa.me/5511999999999" target="_blank"></a>
-    <a id="btnPresentes" class="botao" href="presentes.html"></a>
+        <a id="btnInfo" class="botao" href="pagina-info.html"></a>
+        <a id="btnLocal" class="botao" href="https://maps.google.com" target="_blank"></a>
+        <a id="btnConfirma" class="botao" href="https://wa.me/5511999999999" target="_blank"></a>
+        <a id="btnPresentes" class="botao" href="presentes.html"></a>
+    </div>
 
 </div>
 
 <script>
 /* ============================
-   ANIMAÇÃO DE ABRIR A CARTA
-============================= */
+   ANIMAÇÃO DE ABRIR CARTA
+============================ */
 document.getElementById("abrirCarta").addEventListener("click", () => {
     let env = document.getElementById("envelope");
-    let card = document.getElementById("card");
+    let card = document.getElementById("cardWrapper");
 
     env.style.transform = "translateY(-120%) scale(0.85)";
     env.style.opacity = "0";
@@ -152,8 +160,8 @@ document.getElementById("abrirCarta").addEventListener("click", () => {
 });
 
 /* ============================
-   PARTÍCULAS MAGICAS
-============================= */
+   PARTÍCULAS
+============================ */
 function criarParticula() {
     const p = document.createElement("div");
     p.classList.add("particle");
