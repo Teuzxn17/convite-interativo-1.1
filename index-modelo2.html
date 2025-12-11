@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite – Modelo Luxo Suave</title>
+
+<style>
+body {
+    margin: 0;
+    background: #000;
+    overflow: hidden;
+}
+
+/* ============================
+   CONTAINER
+============================= */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ============================
+   ENVELOPE
+============================= */
+#envelope {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 5;
+    transition: 1.6s ease-in-out;
+    transform-origin: bottom center;
+}
+
+/* ============================
+   CARD PRINCIPAL
+============================= */
+#card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.12);
+    transition: 2s ease;
+}
+
+#card.glow {
+    animation: glowSoft 6s infinite alternate;
+}
+
+@keyframes glowSoft {
+    0% { filter: drop-shadow(0 0 1px #f1d6ff); }
+    100% { filter: drop-shadow(0 0 10px #ffd4ff); }
+}
+
+/* ============================
+   PARTÍCULAS
+============================= */
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 224, 255, 0.9);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: subir 2.5s linear infinite;
+}
+
+@keyframes subir {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120px) scale(0); opacity: 0; }
+}
+
+/* ============================
+   BOTÃO INVISÍVEL SOBRE O SELO
+============================= */
+#abrirCarta {
+    position: absolute;
+    width: 30%;
+    aspect-ratio: 1/1;
+    left: 50%;
+    top: 62%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* ============================
+   QUATRO BOTÕES INVISÍVEIS
+============================= */
+.botao {
+    position: absolute;
+    width: 22%;
+    height: 12%;
+    bottom: 16%;
+    z-index: 15;
+    background: rgba(255,0,0,0); /* invisível */
+}
+
+/* posições proporcionais ao card */
+#btnInfo { left: 4%; }
+#btnLocal { left: 28%; }
+#btnConfirma { left: 52%; }
+#btnPresentes { left: 76%; }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Envelope fechado -->
+    <img id="envelope" src="card.jpg">
+
+    <!-- Botão sobre o selo -->
+    <button id="abrirCarta"></button>
+
+    <!-- Card aberto -->
+    <img id="card" src="Alissa.png">
+
+    <!-- 4 botões invisíveis no card -->
+    <a id="btnInfo" class="botao" href="pagina-info.html"></a>
+    <a id="btnLocal" class="botao" href="https://maps.google.com" target="_blank"></a>
+    <a id="btnConfirma" class="botao" href="https://wa.me/5511999999999" target="_blank"></a>
+    <a id="btnPresentes" class="botao" href="presentes.html"></a>
+
+</div>
+
+<script>
+/* ============================
+   ANIMAÇÃO DE ABRIR A CARTA
+============================= */
+document.getElementById("abrirCarta").addEventListener("click", () => {
+    let env = document.getElementById("envelope");
+    let card = document.getElementById("card");
+
+    env.style.transform = "translateY(-120%) scale(0.85)";
+    env.style.opacity = "0";
+
+    setTimeout(() => {
+        card.style.opacity = "1";
+        card.style.transform = "scale(1)";
+        card.classList.add("glow");
+    }, 600);
+});
+
+/* ============================
+   PARTÍCULAS MAGICAS
+============================= */
+function criarParticula() {
+    const p = document.createElement("div");
+    p.classList.add("particle");
+
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.bottom = "0px";
+    p.style.opacity = Math.random();
+
+    document.body.appendChild(p);
+
+    setTimeout(() => p.remove(), 2500);
+}
+setInterval(criarParticula, 150);
+</script>
+
+</body>
+</html>
